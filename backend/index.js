@@ -3,6 +3,10 @@ const cors = require("cors");
 const sequelize = require("./config/db");
 require("dotenv").config();
 
+
+require("dotenv").config();
+
+
 const app = express();
 
 app.use(cors());
@@ -20,3 +24,17 @@ sequelize.authenticate()
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+
+// sync DB
+sequelize.sync({ alter: true })
+  .then(() => console.log("✅ Tables Created"))
+  .catch(err => console.error(err));
+
+
+
+
+const authRoutes = require("./routes/authRoutes");
+
+app.use("/api/auth", authRoutes);
