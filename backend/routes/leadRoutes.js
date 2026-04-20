@@ -6,6 +6,8 @@ const {
   updateLead,
   deleteLead
 } = require("../controllers/leadController");
+const auth = require("../middleware/authMiddleware"); 
+
 
 router.post("/", createLead);
 router.get("/", getLeads);

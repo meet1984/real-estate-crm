@@ -52,3 +52,6 @@ sequelize.sync({ alter: true })
 const leadRoutes = require("./routes/leadRoutes");
 
 app.use("/api/leads", leadRoutes);
+
+
+
