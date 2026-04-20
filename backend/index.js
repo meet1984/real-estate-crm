@@ -1,11 +1,13 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const sequelize = require("./config/db");
-require("dotenv").config();
 
-
-require("dotenv").config();
-
+const authRoutes = require("./routes/authRoutes");
+const leadRoutes = require("./routes/leadRoutes");
+const propertyRoutes = require("./routes/propertyRoutes");
+const dealRoutes = require("./routes/dealRoutes");
 
 const app = express();
 
@@ -21,37 +23,16 @@ sequelize.authenticate()
   .then(() => console.log("✅ MySQL Connected"))
   .catch(err => console.error("❌ DB Error:", err));
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-
-// sync DB
-sequelize.sync({ alter: true })
-  .then(() => console.log("✅ Tables Created"))
-  .catch(err => console.error(err));
-
-
-
-
-const authRoutes = require("./routes/authRoutes");
-
-app.use("/api/auth", authRoutes);
-
-
-
-const { User, lead } = require("./models");
-
+// Sync DB
 sequelize.sync({ alter: true })
   .then(() => console.log("✅ Tables Updated"))
   .catch(err => console.error(err));
 
-
-
-const leadRoutes = require("./routes/leadRoutes");
-
+// Routes
+app.use("/api/auth", authRoutes);
 app.use("/api/leads", leadRoutes);
+app.use("/api/properties", propertyRoutes);
+app.use("/api/deals", dealRoutes);
 
-
-
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,17 +1,22 @@
 const express = require("express");
 const router = express.Router();
+
+const auth = require("../middleware/authMiddleware");
+const role = require("../middleware/roleMiddleware");
+
 const {
   createLead,
   getLeads,
   updateLead,
   deleteLead
 } = require("../controllers/leadController");
-const auth = require("../middleware/authMiddleware"); 
 
+// Protected routes
+router.post("/", auth, createLead);
+router.get("/", auth, getLeads);
+router.put("/:id", auth, updateLead);
 
-router.post("/", createLead);
-router.get("/", getLeads);
-router.put("/:id", updateLead);
-router.delete("/:id", deleteLead);
+// 👇 PUT YOUR CODE HERE
+router.delete("/:id", auth, role("admin"), deleteLead);
 
 module.exports = router;
