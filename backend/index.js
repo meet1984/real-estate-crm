@@ -38,3 +38,17 @@ sequelize.sync({ alter: true })
 const authRoutes = require("./routes/authRoutes");
 
 app.use("/api/auth", authRoutes);
+
+
+
+const { User, lead } = require("./models");
+
+sequelize.sync({ alter: true })
+  .then(() => console.log("✅ Tables Updated"))
+  .catch(err => console.error(err));
+
+
+
+const leadRoutes = require("./routes/leadRoutes");
+
+app.use("/api/leads", leadRoutes);
